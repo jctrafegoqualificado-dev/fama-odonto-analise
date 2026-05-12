@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fama Odonto — Plano Estratégico de Marketing</title>
+<meta name="description" content="Plano estratégico de marketing digital para a Fama Odonto. Briefing, análise de concorrentes, landing page e keywords.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #003B5C;
+    --primary-light: #00A8CC;
+    --primary-deep: #001F3F;
+    --accent: #FF6B35;
+    --accent-glow: #FF8E53;
+    --accent-soft: #FFE5DA;
+    --gold: #FFB627;
+    --bg: #EAF4F8;
+    --bg-soft: #F5FAFC;
+    --card: #ffffff;
+    --text: #0A1929;
+    --text-soft: #475569;
+    --border: #CFE3EC;
+    --shadow-color: 0, 59, 92;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,107,53,0.25) 0%, transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(0,168,204,0.4) 0%, transparent 50%),
+      linear-gradient(135deg, #001F3F 0%, #003B5C 45%, #006B8F 100%);
+    color: white;
+    padding: 100px 20px 130px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+  .hero::before {
+    top: -40%;
+    right: -8%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,182,39,0.18) 0%, transparent 70%);
+    animation: float-slow 18s ease-in-out infinite;
+  }
+  .hero::after {
+    bottom: -35%;
+    left: -8%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 70%);
+    animation: float-slow 14s ease-in-out infinite reverse;
+  }
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.08); }
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+    font-weight: 800;
+    box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+    color: white;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: -1.2px;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #fff 0%, #B8E5F0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 8px;
+    font-weight: 500;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero .meta {
+    font-size: 0.92rem;
+    opacity: 0.85;
+    display: inline-block;
+    padding: 5px 16px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    margin-top: 16px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: -80px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .intro {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px rgba(var(--shadow-color), 0.08);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-light), var(--accent), var(--gold));
+  }
+  .intro h2 {
+    color: var(--primary);
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .intro p {
+    color: var(--text-soft);
+    font-size: 1.02rem;
+  }
+  .intro p strong { color: var(--accent); font-weight: 700; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px 30px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 30px rgba(var(--shadow-color), 0.08);
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    animation: fade-in-up 0.6s ease-out backwards;
+  }
+  .card:nth-child(1) { animation-delay: 0.08s; }
+  .card:nth-child(2) { animation-delay: 0.16s; }
+  .card:nth-child(3) { animation-delay: 0.24s; }
+  .card:nth-child(4) { animation-delay: 0.32s; }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--card-accent, linear-gradient(90deg, var(--primary-light), var(--accent)));
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(var(--shadow-color), 0.15);
+  }
+  .card:hover .card-cta {
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: white;
+    box-shadow: 0 6px 18px rgba(255,107,53,0.4);
+  }
+  .card:hover .card-cta::after {
+    transform: translateX(4px);
+  }
+
+  .card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    box-shadow: 0 6px 20px rgba(0,168,204,0.35);
+  }
+  .card.briefing .card-icon { background: linear-gradient(135deg, #003B5C, #006B8F); }
+  .card.concorrentes .card-icon { background: linear-gradient(135deg, #FF6B35, #FFB627); box-shadow: 0 6px 20px rgba(255,107,53,0.4); }
+  .card.landing .card-icon { background: linear-gradient(135deg, #06A77D, #0CC195); box-shadow: 0 6px 20px rgba(6,167,125,0.4); }
+  .card.keywords .card-icon { background: linear-gradient(135deg, #E63946, #FF5C7A); box-shadow: 0 6px 20px rgba(230,57,70,0.4); }
+
+  .card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  .card p {
+    color: var(--text-soft);
+    font-size: 0.96rem;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-soft);
+    color: var(--primary);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    border: 1px solid var(--border);
+    align-self: flex-start;
+    transition: all 0.25s ease;
+  }
+  .card-cta::after {
+    content: '→';
+    transition: transform 0.25s ease;
+    font-weight: 700;
+  }
+
+  .card-tag {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .card-tag.new { background: linear-gradient(135deg, var(--accent), var(--gold)); color: white; box-shadow: 0 3px 10px rgba(255,107,53,0.35); }
+
+  .footer {
+    text-align: center;
+    padding: 50px 20px 30px;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+  }
+  .footer strong {
+    color: var(--primary);
+    font-weight: 800;
+  }
+  .footer .small {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.82rem;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 70px 20px 90px; }
+    .container { margin-top: -50px; }
+    .intro { padding: 28px 24px; }
+    .card { padding: 26px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <span class="tag">Plano Estratégico</span>
+    <h1>Fama Odonto</h1>
+    <p class="subtitle">Diagnóstico digital completo, análise competitiva no Novo Mundo e plano de captação por mídia paga.</p>
+    <p class="meta">Curitiba/PR · Maio de 2026</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <h2>📋 Visão geral</h2>
+    <p>Este é o conjunto consolidado de análises estratégicas da <strong>Fama Odonto</strong> — clínica odontológica no Novo Mundo, Curitiba/PR. Cada documento abaixo cobre uma frente do plano: <strong>briefing comercial</strong>, <strong>análise competitiva local</strong>, <strong>auditoria da landing page atual</strong> e <strong>estratégia de palavras-chave</strong> para Google Ads.</p>
+  </div>
+
+  <div class="grid">
+
+    <a href="briefing.html" class="card briefing">
+      <div class="card-icon">📑</div>
+      <h3>Briefing comercial</h3>
+      <p>Quem é a clínica, estrutura, procedimentos, dores atuais, histórico de marketing, objetivos em 3 meses e diagnóstico inicial.</p>
+      <span class="card-cta">Abrir briefing</span>
+    </a>
+
+    <a href="analise-concorrentes.html" class="card concorrentes">
+      <span class="card-tag new">Atualizada</span>
+      <div class="card-icon">🎯</div>
+      <h3>Análise de concorrentes</h3>
+      <p>Mapeamento de clínicas em 3 raios de proximidade no Novo Mundo + verificação de quem anuncia no Meta e Google. Inclui deep dive da OdontoRicc (vizinha de quadra).</p>
+      <span class="card-cta">Ver mapeamento</span>
+    </a>
+
+    <a href="analise-landing-page.html" class="card landing">
+      <div class="card-icon">🌐</div>
+      <h3>Análise da landing page</h3>
+      <p>Auditoria técnica da LP atual da Fama: estrutura, copy, conversão, problemas críticos e plano de melhoria para receber tráfego pago.</p>
+      <span class="card-cta">Ver auditoria</span>
+    </a>
+
+    <a href="analise-keywords-google.html" class="card keywords">
+      <div class="card-icon">🔍</div>
+      <h3>Análise de keywords</h3>
+      <p>Estudo de palavras-chave para Google Ads em Curitiba: volume, CPC estimado, intenção, oportunidades de bairro e priorização.</p>
+      <span class="card-cta">Ver keywords</span>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    <p><strong>Fama Odonto</strong> · Plano Estratégico de Marketing Digital</p>
+    <p class="small">Documento confidencial — uso interno e da cliente.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

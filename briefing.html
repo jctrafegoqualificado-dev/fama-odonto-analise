@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Fama Odonto</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #0a5f7a;
+    --primary-light: #1a8cb0;
+    --accent: #00c2a8;
+    --bg: #f7fafb;
+    --card: #ffffff;
+    --text: #1a2730;
+    --text-soft: #5a6c75;
+    --border: #e3ecef;
+    --warn-bg: #fff8e6;
+    --warn-border: #f0c674;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 300px;
+    height: 300px;
+    background: rgba(0,194,168,0.1);
+    border-radius: 50%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+  }
+
+  .hero .meta {
+    font-size: 0.95rem;
+    opacity: 0.75;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: -40px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(10, 95, 122, 0.06);
+    border: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-number {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .section h3 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin: 20px 0 10px;
+    font-weight: 600;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .info-item {
+    background: var(--bg);
+    padding: 16px 18px;
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .info-item .label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .info-item .value {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .badge {
+    background: #eaf4f7;
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    border: 1px solid #d0e4ea;
+  }
+
+  .badge.highlight {
+    background: linear-gradient(135deg, var(--accent), #00a692);
+    color: white;
+    border-color: transparent;
+  }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #e8f7f4, #f0fbf9);
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    border-radius: 10px;
+    margin: 16px 0;
+  }
+
+  .highlight-box .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #00806d;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .highlight-box .value {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .timeline {
+    margin-top: 20px;
+  }
+
+  .timeline-item {
+    padding: 14px 0 14px 28px;
+    border-left: 2px solid var(--border);
+    position: relative;
+    margin-left: 8px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .timeline-item strong {
+    color: var(--primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .diag-list {
+    counter-reset: diag;
+    list-style: none;
+    padding: 0;
+  }
+
+  .diag-list li {
+    counter-increment: diag;
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 10px;
+    padding: 18px 22px 18px 60px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .diag-list li::before {
+    content: counter(diag);
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 30px;
+    height: 30px;
+    background: #f0c674;
+    color: #5c3d00;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .diag-list strong {
+    color: #5c3d00;
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+  }
+
+  .checklist li {
+    padding: 14px 18px;
+    background: var(--bg);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .checklist li:hover {
+    transform: translateX(4px);
+    border-color: var(--accent);
+  }
+
+  .checklist .check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--primary-light);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: white;
+  }
+
+  p {
+    color: var(--text-soft);
+    margin-bottom: 12px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+  }
+
+  .footer strong {
+    color: var(--primary);
+  }
+
+  @media (max-width: 640px) {
+    .section { padding: 24px 22px; }
+    .section-header { flex-wrap: wrap; }
+    .hero { padding: 60px 20px 50px; }
+  }
+
+  @media print {
+    body { background: white; }
+    .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { box-shadow: none; border: 1px solid var(--border); page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <span class="tag">Briefing Estratégico</span>
+    <h1>Fama Odonto</h1>
+    <p class="subtitle">Diagnóstico inicial e plano de ação</p>
+    <p class="meta">Data: 12/05/2026 &nbsp;•&nbsp; Responsável: Silvana</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Sobre a clínica</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Tempo de mercado</div>
+        <div class="value">Mais de 5 anos no local atual</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Estrutura</div>
+        <div class="value">2 cadeiras odontológicas</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Equipe clínica</div>
+        <div class="value">4 dentistas em dias alternados</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Modelo de atendimento</div>
+        <div class="value">Somente particular (sem convênios)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Procedimentos oferecidos</h2>
+    </div>
+    <div class="badge-list">
+      <span class="badge highlight">Próteses</span>
+      <span class="badge highlight">Implantes</span>
+      <span class="badge">Facetas em resina</span>
+      <span class="badge">Facetas em porcelana</span>
+      <span class="badge highlight">Endodontia</span>
+      <span class="badge">Ortodontia</span>
+      <span class="badge">HOF (Harmonização Orofacial)</span>
+      <span class="badge">Clínica geral e dentística</span>
+    </div>
+    <div class="highlight-box">
+      <div class="label">Carro-chefe</div>
+      <div class="value">Próteses, Implantes e Endodontia</div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">Maior ticket / foco de venda</div>
+      <div class="value">Próteses, Implantes e HOF</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Público-alvo — análise estratégica</h2>
+    </div>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 8px 0 14px; font-weight: 600;">3.1 Perfil geográfico — raio de captação</h3>
+    <p style="color: var(--text-soft); margin-bottom: 14px;">A Fama está no <strong style="color: var(--text);">Novo Mundo</strong> (zona sul de Curitiba). Bairros que devem entrar como público primário (raio de 5-7 km):</p>
+    <table style="width: 100%; border-collapse: collapse; margin: 12px 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+      <thead>
+        <tr><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.9rem;">Bairro</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.9rem;">Distância</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.9rem;">Perfil</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Novo Mundo</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">0 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Sede — público local</td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Portão</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">1-2 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média / média-alta</td></tr>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Capão Raso</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">2-3 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média</td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Lindóia</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">2 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média</td></tr>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Fanny</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">2 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média</td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Pinheirinho</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">3-4 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média / popular alta</td></tr>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Água Verde</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">4-5 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média-alta (maior ticket)</td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Vila Izabel</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">3 km</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Classe média-alta</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 24px 0 14px; font-weight: 600;">3.2 Perfil socioeconômico geral</h3>
+    <div class="info-grid">
+      <div class="info-item"><div class="label">Classes predominantes</div><div class="value">B / B+ (R$ 5k a R$ 20k) — A- complementar</div></div>
+      <div class="info-item"><div class="label">Faixa etária</div><div class="value">28 a 70 anos (sub-perfis por procedimento)</div></div>
+      <div class="info-item"><div class="label">Gênero</div><div class="value">Balanceado | Estética: ~75% feminino</div></div>
+      <div class="info-item"><div class="label">Modelo</div><div class="value">Particular (filtro natural de classe)</div></div>
+    </div>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 24px 0 14px; font-weight: 600;">3.3 As 4 personas</h3>
+
+    <!-- Persona 1 -->
+    <div style="background: linear-gradient(135deg, #eaf4f7 0%, #f5fafc 100%); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; border-left: 5px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">👵 Persona 1 — "Dona Marta"</div>
+        <span style="background: var(--accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">REABILITAÇÃO ORAL — Próteses + Implantes</span>
+      </div>
+      <p style="color: var(--text-soft); margin-bottom: 10px; font-style: italic;">Carro-chefe da clínica. Maior volume potencial de faturamento.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 12px 0;">
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">IDADE</strong><br>55 a 70 anos (60% F / 40% M)</div>
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">RENDA FAMILIAR</strong><br>R$ 5k a R$ 12k</div>
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">CANAIS-CHAVE</strong><br>Facebook, WhatsApp, Google</div>
+      </div>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Dores:</strong> vergonha de sorrir, dificuldade pra mastigar, prótese antiga que machuca, medo de "ficar banguela"</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Desejos:</strong> voltar a sorrir nas fotos da família, comer normalmente, sentir-se mais jovem</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Decisão:</strong> influência forte de filhos/cônjuge, compara 2-3 clínicas, valoriza parcelamento</p>
+    </div>
+
+    <!-- Persona 2 -->
+    <div style="background: linear-gradient(135deg, #eaf4f7 0%, #f5fafc 100%); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; border-left: 5px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">💼 Persona 2 — "Carlos"</div>
+        <span style="background: var(--accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">IMPLANTE UNITÁRIO — alta intenção</span>
+      </div>
+      <p style="color: var(--text-soft); margin-bottom: 10px; font-style: italic;">Ticket médio-alto, ciclo curto, alta urgência.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 12px 0;">
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">IDADE</strong><br>40 a 55 anos (50/50)</div>
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">RENDA FAMILIAR</strong><br>R$ 10k a R$ 25k</div>
+        <div><strong style="color: var(--primary); font-size: 0.85rem;">CANAIS-CHAVE</strong><br>Google Ads, LinkedIn, WhatsApp</div>
+      </div>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Dores:</strong> perdeu dente recentemente, espaço vazio incomoda, comprometimento estético no trabalho</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Desejos:</strong> resolver rápido em poucas consultas, solução definitiva, discrição no processo</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Decisão:</strong> pesquisa rápida (1-3 dias), decide em 1-2 consultas, pondera valor x tempo x experiência</p>
+    </div>
+
+    <!-- Persona 3 -->
+    <div style="background: linear-gradient(135deg, #fef3f7 0%, #fef9fb 100%); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; border-left: 5px solid #e91e63;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div style="font-size: 1.1rem; font-weight: 700; color: #c2185b;">💅 Persona 3 — "Beatriz"</div>
+        <span style="background: #e91e63; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">ESTÉTICA — Lentes / Facetas / HOF</span>
+      </div>
+      <p style="color: var(--text-soft); margin-bottom: 10px; font-style: italic;">Maior crescimento de mercado. Persona-chave pra escalar a clínica.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 12px 0;">
+        <div><strong style="color: #c2185b; font-size: 0.85rem;">IDADE</strong><br>28 a 45 anos (75% F)</div>
+        <div><strong style="color: #c2185b; font-size: 0.85rem;">RENDA FAMILIAR</strong><br>R$ 6k a R$ 20k</div>
+        <div><strong style="color: #c2185b; font-size: 0.85rem;">CANAL PRINCIPAL</strong><br><strong>Instagram</strong> + TikTok + Google Maps</div>
+      </div>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Dores:</strong> sorriso "imperfeito", autoestima baixa, pressão estética profissional/social, envelhecimento facial</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Desejos:</strong> sorriso "perfeito" estilo influencer, confiança em fotos/vídeos, parecer mais jovem sem ficar "fake"</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Decisão:</strong> vive de prova visual (antes/depois é decisivo), segue dentistas no Instagram, recomendação de amiga peso 10</p>
+    </div>
+
+    <!-- Persona 4 -->
+    <div style="background: linear-gradient(135deg, #fff8e6 0%, #fffdf5 100%); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; border-left: 5px solid #f0ad4e;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div style="font-size: 1.1rem; font-weight: 700; color: #a67d1d;">🚨 Persona 4 — "Roberto"</div>
+        <span style="background: #f0ad4e; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;">URGÊNCIA — Endodontia / Dor</span>
+      </div>
+      <p style="color: var(--text-soft); margin-bottom: 10px; font-style: italic;">Conversão rápida, ticket baixo, mas porta de entrada pra outros procedimentos.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 12px 0;">
+        <div><strong style="color: #a67d1d; font-size: 0.85rem;">IDADE</strong><br>30 a 60 anos (50/50)</div>
+        <div><strong style="color: #a67d1d; font-size: 0.85rem;">RENDA FAMILIAR</strong><br>R$ 4k a R$ 15k</div>
+        <div><strong style="color: #a67d1d; font-size: 0.85rem;">CANAIS-CHAVE</strong><br>Google "agora", Maps, WhatsApp <5min</div>
+      </div>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Dor literal:</strong> dor de dente AGORA, abscesso, não consegue trabalhar/dormir, não tem dentista de confiança</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Desejo:</strong> parar a dor o mais rápido possível, atendimento hoje ou amanhã</p>
+      <p style="color: var(--text); margin: 8px 0;"><strong>Decisão:</strong> em minutos — quem responde primeiro ganha. Preço é secundário diante da dor</p>
+    </div>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 24px 0 14px; font-weight: 600;">3.4 Mapa de prioridade pra investimento de mídia</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 12px 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+      <thead>
+        <tr><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.88rem;">Persona</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.88rem;">Procedimento</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: right; font-size: 0.88rem;">Ticket</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: center; font-size: 0.88rem;">Prioridade</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Dona Marta</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Próteses + Implantes</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: right;">R$ 2.500-15.000</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;"><strong style="color: var(--accent);">#1</strong></td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Beatriz</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Lentes / HOF</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: right;">R$ 1.500-25.000</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;"><strong style="color: var(--accent);">#2</strong></td></tr>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Carlos</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Implante unitário</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: right;">R$ 3.500-5.000</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;"><strong>#3</strong></td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Roberto</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Endodontia</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: right;">R$ 800-1.500</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">#4 defensivo</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 24px 0 14px; font-weight: 600;">3.5 Plataforma certa pra cada persona</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 12px 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+      <thead>
+        <tr><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.88rem;">Persona</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: center; font-size: 0.88rem;">Google Ads</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: center; font-size: 0.88rem;">Meta Ads</th><th style="background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-size: 0.88rem;">Observação</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Dona Marta</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Facebook converte melhor que Instagram</td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Carlos</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Alta intenção → Google é prioridade</td></tr>
+        <tr><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Beatriz</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;"><strong>Instagram é o canal principal</strong></td></tr>
+        <tr style="background: #fafcfd;"><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Roberto</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐⭐⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem; text-align: center;">⭐</td><td style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.92rem;">Só Google + Maps fazem sentido</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.1rem; color: var(--primary); margin: 24px 0 14px; font-weight: 600;">3.6 Mensagens-chave por persona</h3>
+    <div class="info-grid">
+      <div class="info-item"><div class="label">Dona Marta</div><div class="value">"Recupere a alegria de sorrir e mastigar com conforto" + parcelamento + depoimentos 50+</div></div>
+      <div class="info-item"><div class="label">Carlos</div><div class="value">"Implante em até 2 consultas, com tecnologia e zero desconforto" + experiência + prazo</div></div>
+      <div class="info-item"><div class="label">Beatriz</div><div class="value">"Conquiste o sorriso que você merece" + antes/depois real + autoridade estética</div></div>
+      <div class="info-item"><div class="label">Roberto</div><div class="value">"Atendimento de urgência em Curitiba — sem dor, hoje mesmo" + Maps + WhatsApp ágil</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Situação atual da agenda e captação</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Agenda</div>
+        <div class="value">Cheia pelas próximas 2 semanas</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Problema crítico</div>
+        <div class="value">Alta taxa de desmarcações frequentes</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Principal dor</div>
+        <div class="value">Falta de pacientes novos (volume, não qualidade)</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Procedimento a escalar</div>
+        <div class="value">Próteses</div>
+      </div>
+    </div>
+    <h3>Canais de captação utilizados hoje</h3>
+    <div class="badge-list">
+      <span class="badge">Indicação</span>
+      <span class="badge">Redes sociais</span>
+      <span class="badge">Anúncios pagos</span>
+      <span class="badge">Google Maps</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Histórico de marketing</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Já investiu em anúncios?</div>
+        <div class="value">Sim — Google e Meta</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Modelo anterior</div>
+        <div class="value">Agência terceirizada</div>
+      </div>
+    </div>
+
+    <h3>Motivos do encerramento</h3>
+    <ul class="checklist">
+      <li><span class="check"></span><div>Agência sem experiência no nicho odontológico</div></li>
+      <li><span class="check"></span><div>Não entregava criativos com regularidade</div></li>
+      <li><span class="check"></span><div>Sem relatório de acompanhamento / prestação de contas</div></li>
+    </ul>
+
+    <h3>Ativos digitais existentes</h3>
+    <div class="badge-list">
+      <span class="badge highlight">Landing page ativa</span>
+      <span class="badge highlight">WhatsApp Business com atendente dedicado</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Objetivos e expectativas</h2>
+    </div>
+    <div class="highlight-box">
+      <div class="label">Cenário ideal em 3 meses</div>
+      <div class="value">Agenda cheia + aumento de faturamento</div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Investimento mensal (mídia + gestão)</div>
+        <div class="value">A definir — depende da proposta de entrega</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Decisão de marketing</div>
+        <div class="value">Centralizada na Silvana (sem sócios)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Análise competitiva — pesquisa no Google</h2>
+    </div>
+    <p>Foram realizadas buscas no Google em Curitiba pelos principais serviços da clínica (implantes, próteses e lentes/facetas de resina), tanto em resultados orgânicos quanto patrocinados e no Google Maps.</p>
+
+    <div class="highlight-box" style="background: linear-gradient(135deg, #ffe8e8, #fff4f4); border-left-color: #d9534f;">
+      <div class="label" style="color: #a83232;">Constatação principal</div>
+      <div class="value">Em nenhuma das buscas a Fama Odonto apareceu — nem nos resultados orgânicos, nem nos anúncios pagos, nem nas listagens locais do Maps.</div>
+    </div>
+
+    <h3>O que apareceu em cada busca</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">Implantes (orgânico)</div>
+        <div class="value">Dr. Gustavo Pimpão, Instituto Kopp, Neobianco, NewLife Odontologia</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Implantes (anúncios)</div>
+        <div class="value">Instituto Kopp, NewLife, Julio Cavichiolo, Dr. Gustavo Pimpão</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Próteses (anúncios)</div>
+        <div class="value">Instituto Kopp, Hurtado Dental, Digiodontomkt, Neobianco</div>
+      </div>
+      <div class="info-item">
+        <div class="label">Lentes / facetas (local + orgânico)</div>
+        <div class="value">Prime Lentes Dentais, +Sorriso Odontologia, Odonto Vie</div>
+      </div>
+    </div>
+
+    <h3>Oportunidades identificadas</h3>
+    <ol class="diag-list" style="counter-reset: diag;">
+      <li>
+        <strong>Invisibilidade nas buscas comerciais.</strong>
+        Pacientes que procuram ativamente por implantes, próteses ou lentes em Curitiba não encontram a Fama Odonto. Esse é o público de maior intenção de compra — e está sendo todo capturado pelos concorrentes.
+      </li>
+      <li>
+        <strong>Anúncios de "lentes" estão genéricos.</strong>
+        A busca por lentes de resina e facetas mostra poucos concorrentes e com comunicação genérica, sem proposta de valor clara. <em>Mercado grande e pouco explorado</em>, com espaço real para dominar com uma landing page específica e anúncios bem segmentados.
+      </li>
+      <li>
+        <strong>Concorrentes com forte presença social.</strong>
+        Clínicas como Instituto Kopp (4,9 ★ / 129 avaliações) e NewLife (4,9 ★ / 231 avaliações) estão se posicionando pela prova social. A Fama precisa do mesmo trabalho de avaliações + ficha do Google Meu Negócio otimizada.
+      </li>
+    </ol>
+
+    <h3>Estratégia recomendada</h3>
+    <div class="highlight-box">
+      <div class="label">Plano de ação</div>
+      <div class="value" style="font-weight: 500; line-height: 1.7;">Com <strong>anúncios corretos</strong> (segmentação geográfica precisa, palavras-chave de alta intenção e criativos por procedimento) e <strong>landing pages específicas por serviço</strong> — uma para implantes, uma para próteses e uma para lentes/facetas — a intenção é <strong>posicionar a Fama Odonto nos primeiros lugares</strong> dos resultados patrocinados, capturando a demanda que hoje vai 100% para os concorrentes.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Diagnóstico / Pontos de atenção</h2>
+    </div>
+    <ol class="diag-list">
+      <li>
+        <strong>Agenda "cheia" é enganosa.</strong>
+        As desmarcações frequentes indicam que o problema real não é falta de horário, e sim baixa qualificação ou baixo compromisso do paciente agendado. Necessário entender a taxa de no-show e o perfil de quem desmarca.
+      </li>
+      <li>
+        <strong>Foco comercial em Próteses.</strong>
+        Ticket alto e procedimento que ela quer escalar, mas é um serviço de ciclo de decisão mais longo — exige nutrição, prova social e construção de autoridade.
+      </li>
+      <li>
+        <strong>Frustração com agência anterior.</strong>
+        Quebra de confiança por falta de transparência. Reverter exige relatórios claros, cronograma de criativos e comunicação proativa.
+      </li>
+      <li>
+        <strong>Estrutura mínima já existe.</strong>
+        Landing page + WhatsApp com atendente. É preciso verificar a qualidade do funil atual: a LP está convertendo? O atendente faz follow-up? Há script de venda?
+      </li>
+      <li>
+        <strong>Orçamento em aberto.</strong>
+        A proposta precisa apresentar cenários (mínimo, recomendado, ideal) com projeção de retorno por faixa de investimento.
+      </li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>Próximos passos sugeridos</h2>
+    </div>
+    <ul class="checklist">
+      <li><span class="check"></span><div>Auditar landing page atual (estrutura, copy, conversão)</div></li>
+      <li><span class="check"></span><div>Avaliar script e tempo de resposta do WhatsApp</div></li>
+      <li><span class="check"></span><div>Levantar taxa de no-show e motivos de desmarcação</div></li>
+      <li><span class="check"></span><div>Mapear ticket médio real de Próteses, Implantes e HOF</div></li>
+      <li><span class="check"></span><div>Apresentar proposta com 2-3 cenários de investimento</div></li>
+      <li><span class="check"></span><div>Definir KPIs e cadência de relatório (semanal / quinzenal)</div></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p><strong>Briefing — Fama Odonto</strong></p>
+  <p>Documento estratégico inicial &nbsp;•&nbsp; 12/05/2026</p>
+</footer>
+
+</body>
+</html>

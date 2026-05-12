@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise de Keywords Google Ads — Fama Odonto</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #0a5f7a;
+    --primary-light: #1a8cb0;
+    --accent: #00c2a8;
+    --bg: #f7fafb;
+    --card: #ffffff;
+    --text: #1a2730;
+    --text-soft: #5a6c75;
+    --border: #e3ecef;
+    --danger: #d9534f;
+    --warn: #f0ad4e;
+    --success: #28a745;
+    --gold: #d4a017;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0a5f7a 0%, #1a8cb0 100%);
+    color: white;
+    padding: 70px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.05);
+  }
+  .hero::before { top: -50%; right: -10%; width: 400px; height: 400px; }
+  .hero::after { bottom: -30%; left: -5%; width: 300px; height: 300px; background: rgba(0,194,168,0.1); }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; background: rgba(255,255,255,0.15);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 18px; backdrop-filter: blur(10px);
+  }
+  .hero h1 { font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 700; margin-bottom: 14px; }
+  .hero .subtitle { font-size: 1.05rem; opacity: 0.9; margin-bottom: 6px; }
+  .hero .meta { font-size: 0.9rem; opacity: 0.75; }
+
+  .container { max-width: 1100px; margin: -40px auto 60px; padding: 0 20px; position: relative; z-index: 2; }
+
+  .section {
+    background: var(--card); border-radius: 16px;
+    padding: 36px 40px; margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(10, 95, 122, 0.06);
+    border: 1px solid var(--border);
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px; padding-bottom: 18px; border-bottom: 2px solid var(--border);
+  }
+  .section-number {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .section h2 { font-size: 1.5rem; color: var(--primary); font-weight: 600; }
+  .section h3 { font-size: 1.15rem; color: var(--primary); margin: 26px 0 12px; font-weight: 600; }
+  p { color: var(--text-soft); margin-bottom: 14px; }
+  p strong { color: var(--text); }
+
+  /* Funnel visualization */
+  .funnel {
+    background: linear-gradient(135deg, #e8f4f8, #f0fbf9);
+    padding: 28px;
+    border-radius: 14px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .funnel-step {
+    display: inline-block;
+    background: white;
+    padding: 14px 24px;
+    border-radius: 10px;
+    margin: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    font-weight: 600;
+    color: var(--primary);
+    border: 2px solid transparent;
+  }
+  .funnel-step .pct { color: var(--accent); font-size: 0.85rem; display: block; margin-top: 4px; }
+  .funnel-arrow { color: var(--accent); font-size: 1.5rem; margin: 0 8px; vertical-align: middle; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  table { width: 100%; border-collapse: collapse; background: white; min-width: 600px; }
+  th {
+    background: var(--primary); color: white;
+    padding: 12px 14px; text-align: left;
+    font-weight: 600; font-size: 0.88rem;
+    white-space: nowrap;
+  }
+  th.num, td.num { text-align: right; }
+  th.center, td.center { text-align: center; }
+  td {
+    padding: 11px 14px; border-top: 1px solid var(--border);
+    font-size: 0.92rem; color: var(--text);
+  }
+  tr:nth-child(even) td { background: #fafcfd; }
+  tr.total td { background: linear-gradient(135deg, #e8f4f8, #f0fbf9); font-weight: 700; color: var(--primary); border-top: 2px solid var(--accent); }
+
+  .intent { font-size: 1.1rem; }
+
+  /* Score / metric cards */
+  .metric-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin: 18px 0;
+  }
+  .metric {
+    background: var(--bg); padding: 18px 20px; border-radius: 12px;
+    border-top: 4px solid var(--accent);
+  }
+  .metric.gold { border-top-color: var(--gold); background: linear-gradient(135deg, #fff9ed, #fef3d8); }
+  .metric.success { border-top-color: var(--success); background: linear-gradient(135deg, #e6f7ec, #f0faf3); }
+  .metric .label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-soft); font-weight: 600; margin-bottom: 8px; }
+  .metric .value { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+  .metric .sub { font-size: 0.83rem; color: var(--text-soft); margin-top: 4px; }
+
+  /* Alerts */
+  .alert {
+    padding: 18px 22px; border-radius: 10px; margin: 18px 0;
+    border-left: 4px solid;
+  }
+  .alert.info { background: #e8f4f8; border-left-color: var(--primary-light); }
+  .alert.warn { background: #fff8e6; border-left-color: var(--warn); }
+  .alert.success { background: #e6f7ec; border-left-color: var(--success); }
+  .alert-title { font-weight: 700; margin-bottom: 6px; font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  .alert.info .alert-title { color: var(--primary); }
+  .alert.warn .alert-title { color: #a67d1d; }
+  .alert.success .alert-title { color: var(--success); }
+  .alert p { color: var(--text); margin: 0; }
+
+  /* Step list */
+  .step-list { list-style: none; padding: 0; counter-reset: step; }
+  .step-list li {
+    counter-increment: step;
+    background: var(--bg); padding: 14px 18px 14px 56px;
+    border-radius: 10px; margin-bottom: 10px;
+    position: relative; border-left: 3px solid var(--accent);
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute; left: 14px; top: 14px;
+    width: 30px; height: 30px;
+    background: var(--accent); color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+  }
+
+  /* Highlight ROI section */
+  .roi-banner {
+    background: linear-gradient(135deg, #0a5f7a, #00c2a8);
+    color: white;
+    padding: 32px;
+    border-radius: 14px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .roi-banner .big {
+    font-size: 3rem; font-weight: 800; margin: 8px 0;
+    letter-spacing: -1px;
+  }
+  .roi-banner .label { opacity: 0.85; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+  .roi-banner .sub { opacity: 0.9; font-size: 1rem; margin-top: 6px; }
+
+  code {
+    background: #f0f6f8; padding: 2px 6px; border-radius: 4px;
+    font-family: 'Courier New', monospace; font-size: 0.88rem; color: var(--primary);
+  }
+
+  .footer { text-align: center; padding: 40px 20px; color: var(--text-soft); font-size: 0.9rem; }
+  .footer strong { color: var(--primary); }
+
+  @media (max-width: 640px) {
+    .section { padding: 24px 22px; }
+    .hero { padding: 50px 20px 40px; }
+    .funnel-arrow { display: block; transform: rotate(90deg); margin: 4px 0; }
+    .funnel-step { display: block; margin: 6px 0; }
+  }
+  @media print {
+    body { background: white; }
+    .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { box-shadow: none; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <span class="tag">Análise Estratégica Google Ads</span>
+    <h1>Captação de Pacientes via Google</h1>
+    <p class="subtitle">Projeção por palavras-chave — Curitiba</p>
+    <p class="meta">Fama Odonto Novo Mundo &nbsp;•&nbsp; 12/05/2026</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- METODOLOGIA -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Metodologia de projeção</h2>
+    </div>
+    <p>Cada palavra-chave é avaliada pelo funil completo até o lead final. A fórmula:</p>
+
+    <div class="funnel">
+      <span class="funnel-step">Volume de busca<span class="pct">100%</span></span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step">Impressões<span class="pct">× 30%</span></span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step">Cliques<span class="pct">× 7%</span></span>
+      <span class="funnel-arrow">→</span>
+      <span class="funnel-step">Leads<span class="pct">× 10%</span></span>
+    </div>
+
+    <h3>Premissas adotadas</h3>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="label">Impression Share</div>
+        <div class="value">30%</div>
+        <div class="sub">Fatia realista competindo com clínicas estabelecidas</div>
+      </div>
+      <div class="metric">
+        <div class="label">CTR (Taxa de cliques)</div>
+        <div class="value">7%</div>
+        <div class="sub">Acima da média (5%) com anúncios bem escritos</div>
+      </div>
+      <div class="metric">
+        <div class="label">Conversão da LP</div>
+        <div class="value">10%</div>
+        <div class="sub">Meta após correções na landing page</div>
+      </div>
+    </div>
+
+    <div class="alert info">
+      <div class="alert-title">Importante sobre os dados</div>
+      <p>Os volumes apresentados são <strong>estimativas baseadas em padrões do mercado odontológico</strong> em capitais brasileiras de porte similar a Curitiba (~1,8M habitantes). Após acesso à MCC e ao <strong>Planejador de Palavras-chave do Google Ads</strong>, todos os volumes serão validados com dados oficiais — a metodologia (30% × 7% × 10%) permanece a mesma.</p>
+    </div>
+  </section>
+
+  <!-- IMPLANTES -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Implantes Dentários</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>implante dentário curitiba</td><td class="num">1.900</td><td class="num">570</td><td class="num">40</td><td class="num"><strong>4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>implante dental curitiba</td><td class="num">720</td><td class="num">216</td><td class="num">15</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>clínica de implante dentário curitiba</td><td class="num">390</td><td class="num">117</td><td class="num">8</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>implante dentário preço curitiba</td><td class="num">480</td><td class="num">144</td><td class="num">10</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>valor implante dentário curitiba</td><td class="num">880</td><td class="num">264</td><td class="num">18</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>all on 4 curitiba</td><td class="num">210</td><td class="num">63</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>carga imediata curitiba</td><td class="num">140</td><td class="num">42</td><td class="num">3</td><td class="num"><strong>0,3</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>prótese sobre implante curitiba</td><td class="num">170</td><td class="num">51</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL IMPLANTES</td><td class="num">4.890</td><td class="num">1.467</td><td class="num">102</td><td class="num">~11</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PRÓTESES -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Próteses Dentárias</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>prótese dentária curitiba</td><td class="num">880</td><td class="num">264</td><td class="num">18</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>protese fixa curitiba</td><td class="num">210</td><td class="num">63</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>dentadura curitiba</td><td class="num">390</td><td class="num">117</td><td class="num">8</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>protese flexível curitiba</td><td class="num">170</td><td class="num">51</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>protese removível curitiba</td><td class="num">140</td><td class="num">42</td><td class="num">3</td><td class="num"><strong>0,3</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>dentista protético curitiba</td><td class="num">260</td><td class="num">78</td><td class="num">5</td><td class="num"><strong>0,5</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL PRÓTESES</td><td class="num">2.050</td><td class="num">615</td><td class="num">42</td><td class="num">~5</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- LENTES -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Lentes de Contato / Facetas</h2>
+    </div>
+    <div class="alert warn">
+      <div class="alert-title">Oportunidade mapeada</div>
+      <p>Esta categoria foi identificada na pesquisa do Google como tendo <strong>poucos concorrentes anunciando</strong> e comunicação genérica — espaço real para dominar o leilão.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>lente de contato dental curitiba</td><td class="num">1.300</td><td class="num">390</td><td class="num">27</td><td class="num"><strong>3</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>lentes de porcelana curitiba</td><td class="num">480</td><td class="num">144</td><td class="num">10</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>facetas de resina curitiba</td><td class="num">720</td><td class="num">216</td><td class="num">15</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>facetas de porcelana curitiba</td><td class="num">390</td><td class="num">117</td><td class="num">8</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>lente dental preço curitiba</td><td class="num">590</td><td class="num">177</td><td class="num">12</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL LENTES / FACETAS</td><td class="num">3.480</td><td class="num">1.044</td><td class="num">72</td><td class="num">~8</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- HOF -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>HOF — Harmonização Orofacial</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>harmonização orofacial curitiba</td><td class="num">1.300</td><td class="num">390</td><td class="num">27</td><td class="num"><strong>3</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>preenchimento labial curitiba</td><td class="num">2.400</td><td class="num">720</td><td class="num">50</td><td class="num"><strong>5</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>botox curitiba</td><td class="num">3.600</td><td class="num">1.080</td><td class="num">76</td><td class="num"><strong>8</strong></td><td class="center"><span class="intent">🟡</span></td></tr>
+          <tr><td>bichectomia curitiba</td><td class="num">880</td><td class="num">264</td><td class="num">18</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>harmonização facial curitiba</td><td class="num">1.000</td><td class="num">300</td><td class="num">21</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL HOF</td><td class="num">9.180</td><td class="num">2.754</td><td class="num">192</td><td class="num">~20</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ENDODONTIA -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Endodontia (Tratamento de Canal)</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>tratamento de canal curitiba</td><td class="num">1.000</td><td class="num">300</td><td class="num">21</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>canal dentário curitiba</td><td class="num">210</td><td class="num">63</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>endodontia curitiba</td><td class="num">170</td><td class="num">51</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>dentista canal curitiba</td><td class="num">320</td><td class="num">96</td><td class="num">7</td><td class="num"><strong>0,7</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL ENDODONTIA</td><td class="num">1.700</td><td class="num">510</td><td class="num">36</td><td class="num">~4</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- GENÉRICOS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Keywords genéricas de alta intenção</h2>
+    </div>
+    <p>Campanhas paralelas para capturar quem busca dentista sem especificar procedimento.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Palavra-chave</th><th class="num">Volume/mês</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">Leads</th><th class="center">Intenção</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>dentista curitiba</td><td class="num">14.800</td><td class="num">4.440</td><td class="num">311</td><td class="num"><strong>31</strong></td><td class="center"><span class="intent">🟡</span></td></tr>
+          <tr><td>dentista perto de mim (geo Curitiba)</td><td class="num">9.900</td><td class="num">2.970</td><td class="num">208</td><td class="num"><strong>21</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>clínica odontológica curitiba</td><td class="num">1.600</td><td class="num">480</td><td class="num">34</td><td class="num"><strong>3</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>dentista particular curitiba</td><td class="num">720</td><td class="num">216</td><td class="num">15</td><td class="num"><strong>2</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>consulta dentista curitiba</td><td class="num">390</td><td class="num">117</td><td class="num">8</td><td class="num"><strong>1</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr><td>dentista bairro novo mundo</td><td class="num">170</td><td class="num">51</td><td class="num">4</td><td class="num"><strong>0,4</strong></td><td class="center"><span class="intent">🔥</span></td></tr>
+          <tr class="total"><td>TOTAL GENÉRICOS</td><td class="num">27.580</td><td class="num">8.274</td><td class="num">580</td><td class="num">~58</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PROJEÇÃO CONSOLIDADA -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Projeção consolidada</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Categoria</th><th class="num">Leads/mês estimados</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Implantes</td><td class="num">11</td></tr>
+          <tr><td>Próteses</td><td class="num">5</td></tr>
+          <tr><td>Lentes / Facetas</td><td class="num">8</td></tr>
+          <tr><td>HOF</td><td class="num">20</td></tr>
+          <tr><td>Endodontia</td><td class="num">4</td></tr>
+          <tr><td><strong>Subtotal foco em procedimentos</strong></td><td class="num"><strong>~48</strong></td></tr>
+          <tr><td>Genéricos de alta intenção</td><td class="num">58</td></tr>
+          <tr class="total"><td>TOTAL GERAL</td><td class="num">~106 leads/mês</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Cenários comparativos</h3>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="label">Cenário Conservador</div>
+        <div class="value">~32</div>
+        <div class="sub">LP não corrigida (conversão 3%)</div>
+      </div>
+      <div class="metric gold">
+        <div class="label">Cenário Realista</div>
+        <div class="value">~106</div>
+        <div class="sub">LP corrigida (conversão 10%)</div>
+      </div>
+      <div class="metric success">
+        <div class="label">Cenário Otimista</div>
+        <div class="value">~180</div>
+        <div class="sub">LP otimizada + IS 40% + CTR 9%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJEÇÃO FINANCEIRA -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>Projeção financeira</h2>
+    </div>
+
+    <h3>Investimento estimado em mídia</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Categoria</th><th class="num">Cliques/mês</th><th class="num">CPC médio</th><th class="num">Investimento/mês</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Implantes</td><td class="num">102</td><td class="num">R$ 12</td><td class="num">R$ 1.224</td></tr>
+          <tr><td>Próteses</td><td class="num">42</td><td class="num">R$ 8</td><td class="num">R$ 336</td></tr>
+          <tr><td>Lentes / Facetas</td><td class="num">72</td><td class="num">R$ 10</td><td class="num">R$ 720</td></tr>
+          <tr><td>HOF</td><td class="num">192</td><td class="num">R$ 13</td><td class="num">R$ 2.496</td></tr>
+          <tr><td>Endodontia</td><td class="num">36</td><td class="num">R$ 9</td><td class="num">R$ 324</td></tr>
+          <tr><td>Genéricos</td><td class="num">580</td><td class="num">R$ 5</td><td class="num">R$ 2.900</td></tr>
+          <tr class="total"><td>TOTAL MÍDIA</td><td class="num">1.024</td><td class="num">~R$ 7,80</td><td class="num">~R$ 8.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Conversão de leads em pacientes</h3>
+    <p>Assumindo <strong>30% dos leads viram pacientes</strong> (taxa padrão do mercado odontológico para clínicas bem operadas):</p>
+    <p style="font-size: 1.2rem; text-align: center; color: var(--primary); font-weight: 600; padding: 16px;">
+      106 leads/mês × 30% = <strong>~32 novos pacientes/mês</strong>
+    </p>
+
+    <h3>Faturamento estimado</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Procedimento</th><th class="num">Ticket médio</th><th class="num">Pacientes/mês</th><th class="num">Faturamento</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Implante (unidade)</td><td class="num">R$ 3.500</td><td class="num">3</td><td class="num">R$ 10.500</td></tr>
+          <tr><td>Prótese</td><td class="num">R$ 2.500</td><td class="num">2</td><td class="num">R$ 5.000</td></tr>
+          <tr><td>Lente / Faceta (set 6 unid.)</td><td class="num">R$ 9.000</td><td class="num">2</td><td class="num">R$ 18.000</td></tr>
+          <tr><td>HOF (sessão)</td><td class="num">R$ 1.500</td><td class="num">6</td><td class="num">R$ 9.000</td></tr>
+          <tr><td>Endodontia</td><td class="num">R$ 800</td><td class="num">1</td><td class="num">R$ 800</td></tr>
+          <tr><td>Procedimentos gerais (genéricos)</td><td class="num">R$ 600</td><td class="num">18</td><td class="num">R$ 10.800</td></tr>
+          <tr class="total"><td>TOTAL FATURAMENTO/mês</td><td></td><td class="num">32</td><td class="num">~R$ 54.100</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="roi-banner">
+      <div class="label">ROI Projetado</div>
+      <div class="big">5,4x</div>
+      <div class="sub">Para cada R$ 1 investido, retorno estimado de R$ 5,40 em faturamento</div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="label">Investimento total</div>
+        <div class="value">~R$ 10.000</div>
+        <div class="sub">Mídia + gestão</div>
+      </div>
+      <div class="metric gold">
+        <div class="label">Faturamento estimado</div>
+        <div class="value">~R$ 54.100</div>
+        <div class="sub">Por mês</div>
+      </div>
+      <div class="metric success">
+        <div class="label">ROAS</div>
+        <div class="value">540%</div>
+        <div class="sub">Return on Ad Spend</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRÓXIMOS PASSOS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Próximos passos</h2>
+    </div>
+
+    <h3>Validação técnica (acesso à MCC)</h3>
+    <ol class="step-list">
+      <li>Conectar a MCC do gestor à conta de anúncios da Fama Odonto</li>
+      <li>Puxar volumes reais do Planejador de Palavras-chave (geo: Curitiba + raio 30km)</li>
+      <li>Validar CPCs reais por leilão simulado</li>
+      <li>Mapear concorrentes diretos via Auction Insights</li>
+    </ol>
+
+    <h3>Estruturação das campanhas</h3>
+    <ol class="step-list">
+      <li><strong>Campanha 1 — Implantes:</strong> ad group dedicado, LP <code>/implantes-curitiba</code></li>
+      <li><strong>Campanha 2 — Próteses:</strong> ad group dedicado, LP <code>/proteses-curitiba</code></li>
+      <li><strong>Campanha 3 — Lentes / Facetas:</strong> ad group dedicado, LP <code>/lentes-curitiba</code></li>
+      <li><strong>Campanha 4 — HOF:</strong> ad group dedicado, LP <code>/harmonizacao-curitiba</code></li>
+      <li><strong>Campanha 5 — Genéricos + Brand:</strong> campanha de marca + termos amplos com filtros geográficos</li>
+    </ol>
+
+    <h3>Acompanhamento e otimização</h3>
+    <ol class="step-list">
+      <li>Dashboard semanal com CPC, CTR, conversões e CPL</li>
+      <li>Otimização contínua de palavras-chave negativas</li>
+      <li>A/B test de anúncios e LPs a cada 30 dias</li>
+    </ol>
+
+    <div class="alert success">
+      <div class="alert-title">Nota final</div>
+      <p>Esta análise é uma <strong>projeção baseada em estimativas do mercado</strong>. Após acesso à MCC e ao Planejador de Palavras-chave, os números serão refinados com dados oficiais do Google. A metodologia (fórmula 30% × 7% × 10%) permanece a mesma — apenas os volumes são substituídos pelos valores reais.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p><strong>Análise de Keywords — Fama Odonto Novo Mundo</strong></p>
+  <p>Projeção estratégica Google Ads &nbsp;•&nbsp; Curitiba &nbsp;•&nbsp; 12/05/2026</p>
+</footer>
+
+</body>
+</html>

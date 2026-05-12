@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise Técnica — Landing Page Fama Odonto</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #0a5f7a;
+    --primary-light: #1a8cb0;
+    --accent: #00c2a8;
+    --bg: #f7fafb;
+    --card: #ffffff;
+    --text: #1a2730;
+    --text-soft: #5a6c75;
+    --border: #e3ecef;
+    --danger: #d9534f;
+    --danger-bg: #fdecec;
+    --warn: #f0ad4e;
+    --warn-bg: #fff8e6;
+    --success: #28a745;
+    --success-bg: #e6f7ec;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0a5f7a 0%, #1a8cb0 100%);
+    color: white;
+    padding: 70px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .hero::before { top: -50%; right: -10%; width: 400px; height: 400px; }
+  .hero::after { bottom: -30%; left: -5%; width: 300px; height: 300px; background: rgba(0,194,168,0.1); }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+
+  .hero .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero .subtitle { font-size: 1.05rem; opacity: 0.9; margin-bottom: 6px; }
+  .hero .meta { font-size: 0.9rem; opacity: 0.75; }
+  .hero .url {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(0,0,0,0.2);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: -40px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(10, 95, 122, 0.06);
+    border: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-number {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .section h2 { font-size: 1.5rem; color: var(--primary); font-weight: 600; }
+  .section h3 { font-size: 1.1rem; color: var(--text); margin: 24px 0 12px; font-weight: 600; }
+
+  p { color: var(--text-soft); margin-bottom: 14px; }
+  p strong, li strong { color: var(--text); }
+
+  /* Score cards */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .score-card {
+    background: var(--bg);
+    padding: 18px 20px;
+    border-radius: 12px;
+    border-top: 4px solid var(--accent);
+  }
+  .score-card.danger { border-top-color: var(--danger); }
+  .score-card.warn { border-top-color: var(--warn); }
+  .score-card.success { border-top-color: var(--success); }
+
+  .score-card .label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-soft);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .score-card .value { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .score-card .status { font-size: 0.85rem; color: var(--text-soft); }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  th {
+    background: var(--primary);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  tr:nth-child(even) td { background: #fafcfd; }
+
+  /* Status pills */
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pill-ok { background: var(--success-bg); color: var(--success); }
+  .pill-warn { background: var(--warn-bg); color: #a67d1d; }
+  .pill-danger { background: var(--danger-bg); color: var(--danger); }
+  .pill-info { background: #e3f2fa; color: var(--primary); }
+
+  /* Alert boxes */
+  .alert {
+    padding: 18px 22px;
+    border-radius: 10px;
+    margin: 18px 0;
+    border-left: 4px solid;
+  }
+  .alert.danger { background: var(--danger-bg); border-left-color: var(--danger); }
+  .alert.warn { background: var(--warn-bg); border-left-color: var(--warn); }
+  .alert.success { background: var(--success-bg); border-left-color: var(--success); }
+  .alert.info { background: #e8f4f8; border-left-color: var(--primary-light); }
+
+  .alert-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .alert.danger .alert-title { color: var(--danger); }
+  .alert.warn .alert-title { color: #a67d1d; }
+  .alert.success .alert-title { color: var(--success); }
+  .alert.info .alert-title { color: var(--primary); }
+  .alert p { color: var(--text); margin: 0; }
+
+  /* Priority list */
+  .priority-list { list-style: none; padding: 0; counter-reset: prio; }
+  .priority-list li {
+    counter-increment: prio;
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 16px 20px 16px 60px;
+    margin-bottom: 12px;
+    position: relative;
+    border-left: 4px solid var(--border);
+  }
+  .priority-list li::before {
+    content: counter(prio);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .priority-list.high li { border-left-color: var(--danger); }
+  .priority-list.high li::before { background: var(--danger); }
+  .priority-list.medium li { border-left-color: var(--warn); }
+  .priority-list.medium li::before { background: var(--warn); color: #5c3d00; }
+  .priority-list.low li { border-left-color: var(--success); }
+  .priority-list.low li::before { background: var(--success); }
+
+  .priority-list strong { color: var(--text); display: block; margin-bottom: 4px; }
+  .priority-list span { color: var(--text-soft); font-size: 0.93rem; }
+
+  /* Pillar cards (Quality Score breakdown) */
+  .pillar {
+    background: linear-gradient(135deg, #f7fafb 0%, #ffffff 100%);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin: 16px 0;
+    border-left: 5px solid var(--accent);
+  }
+  .pillar.danger { border-left-color: var(--danger); }
+  .pillar.warn { border-left-color: var(--warn); }
+  .pillar.success { border-left-color: var(--success); }
+  .pillar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+  .pillar-title { font-size: 1.05rem; font-weight: 600; color: var(--primary); }
+
+  ul.bullets { padding-left: 20px; margin: 10px 0; }
+  ul.bullets li { color: var(--text-soft); margin-bottom: 6px; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+  }
+  .footer strong { color: var(--primary); }
+
+  @media (max-width: 640px) {
+    .section { padding: 24px 22px; }
+    .hero { padding: 50px 20px 40px; }
+    table { font-size: 0.85rem; }
+    th, td { padding: 10px 12px; }
+  }
+  @media print {
+    body { background: white; }
+    .hero { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { box-shadow: none; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <span class="tag">Análise Técnica de Landing Page</span>
+    <h1>Fama Odonto Novo Mundo</h1>
+    <p class="subtitle">Avaliação para Google Ads e Meta Ads</p>
+    <p class="meta">12/05/2026</p>
+    <div class="url">famaodontonovomundo.com</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- RESUMO EXECUTIVO -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Resumo executivo</h2>
+    </div>
+
+    <div class="score-grid">
+      <div class="score-card warn">
+        <div class="label">Google Quality Score</div>
+        <div class="value">4 a 6 / 10</div>
+        <div class="status">Abaixo da média do nicho odonto</div>
+      </div>
+      <div class="score-card warn">
+        <div class="label">Meta Ads Ranking</div>
+        <div class="value">Médio</div>
+        <div class="status">Prova social fraca</div>
+      </div>
+      <div class="score-card danger">
+        <div class="label">SEO On-page</div>
+        <div class="value">Fraco</div>
+        <div class="status">Title duplicado, H2/H3 ausentes</div>
+      </div>
+      <div class="score-card warn">
+        <div class="label">Conversão (UX)</div>
+        <div class="value">Médio</div>
+        <div class="status">CTA bom, sem redutor de risco</div>
+      </div>
+      <div class="score-card danger">
+        <div class="label">LGPD / Compliance</div>
+        <div class="value">Crítico</div>
+        <div class="status">Sem privacidade e cookies</div>
+      </div>
+    </div>
+
+    <div class="alert danger" style="margin-top: 24px;">
+      <div class="alert-title">Conclusão geral</div>
+      <p>A página funciona como "cartão de visitas digital", mas <strong>não está otimizada para receber tráfego pago</strong>. Rodando anúncios para essa LP no estado atual, o CPC será mais caro, o Quality Score baixo vai limitar entregas e o custo por lead será <strong>30 a 60% maior</strong> do que poderia ser.</p>
+    </div>
+  </section>
+
+  <!-- GOOGLE QUALITY SCORE -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Análise pelo Google Ads — Quality Score</h2>
+    </div>
+    <p>O Quality Score do Google é composto por <strong>3 pilares</strong>. Avaliação de cada um:</p>
+
+    <div class="pillar warn">
+      <div class="pillar-header">
+        <div class="pillar-title">2.1 Expected CTR (Taxa de cliques esperada)</div>
+        <span class="pill pill-warn">Baixo</span>
+      </div>
+      <ul class="bullets">
+        <li><strong>Title tag duplicado:</strong> "Fama Odonto Novo Mundo - Sorriso Saudável | Fama Odonto Novo Mundo" — o nome aparece duas vezes, desperdiça caracteres preciosos e prejudica o CTR nos SERPs.</li>
+        <li><strong>Sem palavras-chave de procedimento no title</strong> — não menciona "implantes", "próteses", "lentes", "Curitiba". Reduz o match com a intenção de busca.</li>
+        <li><strong>Meta description ausente</strong> — o Google gera uma automática, geralmente fraca.</li>
+      </ul>
+    </div>
+
+    <div class="pillar warn">
+      <div class="pillar-header">
+        <div class="pillar-title">2.2 Ad Relevance (Relevância do anúncio)</div>
+        <span class="pill pill-warn">Médio-baixo</span>
+      </div>
+      <ul class="bullets">
+        <li><strong>Página única e genérica</strong> atendendo todos os procedimentos. Quando o anúncio for de "implante dentário Curitiba" e cair numa LP que fala de clareamento, canal e prótese ao mesmo tempo, o Google entende baixa correspondência.</li>
+        <li><strong>Necessário:</strong> uma LP por procedimento principal (implante, prótese, lente/faceta), com copy e criativos alinhados ao anúncio.</li>
+      </ul>
+    </div>
+
+    <div class="pillar danger">
+      <div class="pillar-header">
+        <div class="pillar-title">2.3 Landing Page Experience</div>
+        <span class="pill pill-danger">Crítico em pontos-chave</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Item</th><th style="width: 110px;">Status</th><th>Observação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>HTTPS</td><td><span class="pill pill-ok">OK</span></td><td>Domínio Zyro tem SSL nativo</td></tr>
+          <tr><td>Mobile-friendly</td><td><span class="pill pill-ok">OK</span></td><td>Design responsivo</td></tr>
+          <tr><td>Velocidade</td><td><span class="pill pill-ok">OK</span></td><td>CDN entrega imagens otimizadas</td></tr>
+          <tr><td>Conteúdo original e relevante</td><td><span class="pill pill-warn">Médio</span></td><td>Textos curtos e genéricos</td></tr>
+          <tr><td>Navegação clara</td><td><span class="pill pill-ok">OK</span></td><td>Menu enxuto, fluxo direto</td></tr>
+          <tr><td><strong>Política de Privacidade</strong></td><td><span class="pill pill-danger">Ausente</span></td><td>Risco de reprovação no Google Ads (obrigatória para saúde)</td></tr>
+          <tr><td><strong>Política de Cookies / LGPD</strong></td><td><span class="pill pill-danger">Ausente</span></td><td>Não conformidade legal</td></tr>
+          <tr><td>Erro de copy</td><td><span class="pill pill-warn">Encontrado</span></td><td>"Tratamento de Canal" menciona "alinhamento" (provável erro)</td></tr>
+          <tr><td>Estrutura semântica H1/H2/H3</td><td><span class="pill pill-warn">Fraca</span></td><td>Tem 1 H1 e pula direto para H6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- META ADS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Análise pelo Meta Ads — Instagram / Facebook</h2>
+    </div>
+    <p>O Meta avalia anúncios por <strong>3 rankings</strong>: Quality, Engagement e Conversion. A LP impacta principalmente o <strong>Conversion Rate Ranking</strong>.</p>
+
+    <div class="pillar danger">
+      <div class="pillar-header">
+        <div class="pillar-title">3.1 Pixel e rastreamento</div>
+        <span class="pill pill-danger">Faltando o principal</span>
+      </div>
+      <ul class="bullets">
+        <li><strong>Google Tag Manager detectado</strong> (ID: AW-17965608068) — Google Ads OK</li>
+        <li><strong>Pixel do Meta (Facebook): NÃO IDENTIFICADO</strong> no código da página</li>
+      </ul>
+
+      <div class="alert danger">
+        <div class="alert-title">Impacto</div>
+        <p>Sem o pixel do Meta instalado, é impossível: otimizar campanhas por conversão (rodaria só por cliques), criar públicos de remarketing, criar Lookalike Audiences e medir o ROI real das campanhas. <strong>Esse é o ponto técnico mais urgente.</strong></p>
+      </div>
+    </div>
+
+    <div class="pillar warn">
+      <div class="pillar-header">
+        <div class="pillar-title">3.2 Prova social</div>
+        <span class="pill pill-warn">Frágil</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Elemento</th><th>Status</th><th>Recomendação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Depoimentos</td><td>Apenas 2, genéricos</td><td>Mínimo 6-8, com nome completo e foto real</td></tr>
+          <tr><td><strong>Fotos antes/depois</strong></td><td><span class="pill pill-danger">Ausentes</span></td><td>Crítico em odonto — público compra com os olhos</td></tr>
+          <tr><td>Avaliações Google integradas</td><td>Não há</td><td>Embedar widget do Google Reviews</td></tr>
+          <tr><td>Selos de confiança</td><td>Não há</td><td>CRO do dentista, certificações</td></tr>
+          <tr><td>Vídeos da equipe / clínica</td><td>Não há</td><td>Vídeo curto aumenta tempo de página e conversão</td></tr>
+          <tr><td>Métricas declaradas</td><td>"+2.000 sorrisos", "+1.000 clientes"</td><td>Bom, mas precisa de prova visual ao lado</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pillar warn">
+      <div class="pillar-header">
+        <div class="pillar-title">3.3 Relevância do criativo → LP</div>
+        <span class="pill pill-warn">Risco de quebra de promessa</span>
+      </div>
+      <p>Anúncios no Meta costumam ter alta carga visual e emocional. Se o anúncio mostra um "antes e depois de lente de contato dental" e a LP não tem nenhuma foto desse tipo, o usuário sente quebra de promessa → baixa conversão → ranking de qualidade despenca → CPC sobe.</p>
+    </div>
+  </section>
+
+  <!-- PROBLEMAS CRÍTICOS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Problemas críticos — ordem de prioridade</h2>
+    </div>
+
+    <h3 style="color: var(--danger);">Severidade ALTA — corrigir antes de subir qualquer anúncio</h3>
+    <ol class="priority-list high">
+      <li><strong>Adicionar Política de Privacidade e Cookies</strong><span>Exigência do Google Ads para o nicho de saúde. Sem isso, há risco de reprovação ou suspensão de conta.</span></li>
+      <li><strong>Instalar o Pixel do Meta (Facebook)</strong><span>Sem ele, qualquer real investido em Instagram/Facebook é cego.</span></li>
+      <li><strong>Corrigir o title tag</strong><span>Eliminar duplicação e incluir palavras-chave principais. Ex: "Fama Odonto — Implantes, Próteses e Lentes em Curitiba".</span></li>
+      <li><strong>Criar meta description otimizada</strong><span>Com CTA claro, máximo 155 caracteres, palavras-chave do procedimento.</span></li>
+    </ol>
+
+    <h3 style="color: #a67d1d;">Severidade MÉDIA — corrigir em até 30 dias</h3>
+    <ol class="priority-list medium">
+      <li><strong>Estrutura H1/H2/H3</strong><span>Refazer hierarquia semântica (hoje pula H1 → H6).</span></li>
+      <li><strong>Adicionar 4-6 fotos antes/depois reais</strong><span>Com consentimento dos pacientes.</span></li>
+      <li><strong>Substituir depoimentos genéricos</strong><span>Por 6-8 reais com nome completo e foto.</span></li>
+      <li><strong>Integrar widget de avaliações do Google</strong><span>Prova social verificável aumenta confiança.</span></li>
+      <li><strong>Adicionar redutor de risco</strong><span>Garantia de avaliação gratuita, "primeira consulta sem compromisso".</span></li>
+      <li><strong>Corrigir erro de copy</strong><span>Na descrição de Tratamento de Canal.</span></li>
+    </ol>
+
+    <h3 style="color: var(--success);">Severidade BAIXA — otimizações de performance</h3>
+    <ol class="priority-list low">
+      <li><strong>Adicionar urgência sutil</strong><span>"Agenda da semana" ou "vagas limitadas para avaliação".</span></li>
+      <li><strong>Criar página de "obrigado" pós-agendamento</strong><span>Essencial para mensurar conversão.</span></li>
+      <li><strong>Adicionar selos institucionais</strong><span>CRO do responsável técnico, anos de mercado, certificações.</span></li>
+    </ol>
+  </section>
+
+  <!-- LPs DEDICADAS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Estratégia — Landing pages dedicadas</h2>
+    </div>
+    <p>Manter UMA única página tentando vender todos os procedimentos é o que mais derruba o Quality Score em campanhas segmentadas.</p>
+    <p><strong>Plano sugerido:</strong></p>
+    <table>
+      <thead>
+        <tr><th>Campanha</th><th>Landing Page Dedicada</th><th>Foco do criativo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Implantes dentários — Curitiba</td><td><code>/implantes-curitiba</code></td><td>Antes/depois, garantia, parcelamento</td></tr>
+        <tr><td>Próteses dentárias</td><td><code>/proteses-curitiba</code></td><td>Conforto, estética, tipos disponíveis</td></tr>
+        <tr><td>Lentes de contato / facetas</td><td><code>/lentes-de-contato-dental</code></td><td>Antes/depois, "em 2 sessões", harmonia do sorriso</td></tr>
+        <tr><td>HOF — Harmonização Orofacial</td><td><code>/harmonizacao-orofacial</code></td><td>Resultados, naturalidade</td></tr>
+      </tbody>
+    </table>
+    <div class="alert info">
+      <div class="alert-title">Por que isso funciona</div>
+      <p>Cada LP com title, H1, copy e imagens 100% alinhados ao anúncio que traz o tráfego. Isso é o que vai destravar <strong>Quality Score 8-10 no Google</strong> e ranking <strong>"Above Average" no Meta</strong>.</p>
+    </div>
+  </section>
+
+  <!-- IMPACTO ESTIMADO -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Estimativa de impacto</h2>
+    </div>
+    <p>Aplicando as correções de severidade <strong>ALTA + MÉDIA</strong>, a expectativa realista é:</p>
+
+    <div class="score-grid">
+      <div class="score-card success">
+        <div class="label">CPC no Google Ads</div>
+        <div class="value">-25% a -40%</div>
+        <div class="status">Redução por melhora no QS</div>
+      </div>
+      <div class="score-card success">
+        <div class="label">Custo por Lead (CPL)</div>
+        <div class="value">-30% a -50%</div>
+        <div class="status">Mais conversão + menos CPC</div>
+      </div>
+      <div class="score-card success">
+        <div class="label">Taxa de conversão da LP</div>
+        <div class="value">de 1-2% → 4-7%</div>
+        <div class="status">Em campanhas segmentadas</div>
+      </div>
+      <div class="score-card success">
+        <div class="label">Relevância no Meta</div>
+        <div class="value">Médio → Above Average</div>
+        <div class="status">Com pixel + prova social</div>
+      </div>
+    </div>
+
+    <div class="alert success" style="margin-top: 24px;">
+      <div class="alert-title">Na prática</div>
+      <p>Esses ganhos significam que com o <strong>mesmo orçamento de mídia</strong> é possível trazer <strong>o dobro (ou mais) de leads qualificados</strong>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p><strong>Análise Técnica de Landing Page — Fama Odonto Novo Mundo</strong></p>
+  <p>Documento estratégico complementar &nbsp;•&nbsp; 12/05/2026</p>
+</footer>
+
+</body>
+</html>
