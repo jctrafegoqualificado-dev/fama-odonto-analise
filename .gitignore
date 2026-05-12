@@ -3,3 +3,15 @@ Thumbs.db
 *.tmp
 *.bak
 .vscode/
+
+# Segredos - nunca commitar
+.env
+.env.*
+*.token
+*.secret
+*.pem
+*.key
+secrets/
+credentials.json
+.github-token
+*token*.txt
