@@ -33,16 +33,16 @@ Não é uma proposta genérica — cada item do escopo abaixo responde a uma dor
 
 ### 3.1 Gestão de Redes Sociais (Instagram + Facebook)
 
-- **12 posts/mês** para feed (Instagram + Facebook)
-- **20 stories/mês** (rotina da clínica, bastidores, depoimentos)
-- **8 reels/mês** (educativos, antes/depois, dúvidas comuns)
+- Posts para feed (Instagram + Facebook)
+- Stories (rotina da clínica, bastidores, depoimentos)
+- Reels (educativos, antes/depois, dúvidas comuns)
 - Resposta a comentários e DMs em até 24h em dias úteis
 - Calendário editorial mensal aprovado pelo cliente
 - Linha editorial alinhada às 4 personas (Dona Marta, Carlos, Beatriz, Roberto)
 
 ### 3.2 Criação de vídeos
 
-- **8 vídeos/mês** (formato vertical para Reels/Shorts/TikTok)
+- Vídeos em formato vertical para Reels / Shorts / TikTok
 - Roteiros desenvolvidos pela agência
 - Direcionamento das gravações (cliente grava com celular, agência edita)
 - Edição profissional com legendas, trilha, identidade visual
@@ -82,8 +82,8 @@ Não é uma proposta genérica — cada item do escopo abaixo responde a uma dor
 
 ### 3.6 Design de criativos
 
-- **20 criativos estáticos/mês** para anúncios (Meta + Google)
-- **8 criativos em vídeo/mês** (cobertos no item 3.2)
+- Criativos estáticos para anúncios (Meta + Google)
+- Criativos em vídeo (cobertos no item 3.2)
 - Banners de feed, stories e display
 - Templates de antes/depois (com material fornecido pela clínica)
 - Variações para A/B testing
@@ -117,21 +117,7 @@ Não é uma proposta genérica — cada item do escopo abaixo responde a uma dor
 
 ---
 
-## 5. Cenários de investimento e projeção
-
-Quanto maior a fatia em mídia, maior o volume de leads (a gestão se paga melhor em escala):
-
-| Cenário | Gestão | Google Ads | Meta Ads | **Total/mês** | Leads/mês* | Pacientes/mês* | Faturamento estimado* |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| **Mínimo** | R$ 2.500 | R$ 1.000 | R$ 500 | **R$ 4.000** | ~20 | ~6 | R$ 9.000 a R$ 14.000 |
-| **Recomendado** | R$ 2.500 | R$ 2.500 | R$ 1.500 | **R$ 6.500** | ~50 | ~15 | R$ 22.000 a R$ 33.000 |
-| **Ideal** | R$ 2.500 | R$ 5.000 | R$ 3.000 | **R$ 10.500** | ~100 | ~30 | R$ 45.000 a R$ 65.000 |
-
-\* Projeções baseadas em CPC médio de R$ 7-8, conversão da LP em 10% e taxa de fechamento de 30% (com landing pages corrigidas, pixel instalado e funil otimizado).
-
----
-
-## 6. Cronograma de setup (primeiros 30 dias)
+## 5. Cronograma de setup (primeiros 30 dias)
 
 | Semana | Entregas |
 |---|---|
@@ -144,7 +130,7 @@ A partir do 2º mês: operação em ritmo pleno + otimizações + relatórios.
 
 ---
 
-## 7. Comunicação e relatórios
+## 6. Comunicação e relatórios
 
 | Frequência | O que entregamos |
 |---|---|
@@ -157,22 +143,7 @@ Acesso a dashboard em tempo real (Google Looker Studio) com todos os indicadores
 
 ---
 
-## 8. O que NÃO está incluso
-
-Pra evitar mal-entendidos, esclarecemos o que está **fora do escopo**:
-
-- ❌ Fotografia / filmagem profissional dentro da clínica (orçamento à parte ou parceria)
-- ❌ Atendimento aos pacientes / SDR / pré-venda
-- ❌ Influencer marketing e parcerias com criadores
-- ❌ Edição de vídeo com motion design complexo / animações 3D
-- ❌ Material gráfico offline (folders, cartões, banners físicos)
-- ❌ Desenvolvimento de site institucional completo (entregamos apenas as 4 Landing Pages)
-- ❌ Custo da mídia paga (vai direto pra Google/Meta na cobrança deles)
-- ❌ Honorários de dentistas para conteúdo / aparições
-
----
-
-## 9. Termos e condições
+## 7. Termos e condições
 
 - **Período mínimo de contrato:** 3 meses (período necessário para otimização e geração de dados confiáveis no nicho odontológico)
 - **Pagamento do fee de gestão:** até o dia 5 de cada mês via PIX ou transferência
@@ -180,38 +151,3 @@ Pra evitar mal-entendidos, esclarecemos o que está **fora do escopo**:
 - **Acessos necessários:** Meta Business Manager, Google Ads, Google Meu Negócio, domínio do site, WhatsApp Business
 - **Rescisão após o período mínimo:** aviso prévio de 30 dias
 - **Reajuste:** após 12 meses, pelo IPCA acumulado
-
----
-
-## 10. Diferenciais da nossa entrega
-
-Resposta direta às frustrações que a Silvana relatou com a agência anterior:
-
-| Frustração anterior | Como resolvemos |
-|---|---|
-| Agência sem experiência no nicho odontológico | Briefing aprofundado, análise de 4 personas específicas, conhecimento da regulamentação do CFO |
-| Não entregava criativos com regularidade | Calendário editorial mensal aprovado, 20 criativos/mês fixos |
-| Sem relatório de acompanhamento | Dashboard em tempo real + relatório semanal + reunião quinzenal + relatório mensal |
-| Falta de transparência | Acesso direto a todas as contas (não criamos contas paralelas) |
-
----
-
-## 11. Próximos passos
-
-1. ✅ Leitura desta proposta
-2. 📞 Reunião de tira-dúvidas (30 min, sem compromisso)
-3. ✍️ Assinatura do contrato
-4. 🔑 Liberação dos acessos
-5. 🚀 Kickoff e início imediato dos trabalhos
-
----
-
-**Aprovação:**
-
-_______________________________
-**Silvana — Fama Odonto Novo Mundo**
-
-_______________________________
-**[Nome da Agência]**
-
-Data: ____ / ____ / 2026
